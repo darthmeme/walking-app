@@ -13,25 +13,65 @@
 </template>
 
 <script>
+import * as geolocation from 'nativescript-geolocation'
+import { Accuracy } from 'tns-core-modules/ui/enums'
 import { mapboxToken } from '../secrets'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'MapView',
   data () {
     return {
       mapbox: null,
-      mapboxToken
+      mapboxToken,
+      trackID: null
     }
   },
+  created () {
+    geolocation.enableLocationRequest()
+  },
+  computed: {
+    ...mapState({
+      points: state => state.points
+    })
+  },
   methods: {
+    ...mapMutations(['addDataToPoints']),
     onMapReady (args) {
       this.mapbox = args.map
 
-      this.mapbox.getUserLocation().then(data => {
+      geolocation.getCurrentLocation().then(data => {
         this.mapbox.setCenter({
-          lat: data.location.lat,
-          lng: data.location.lng
+          lat: data.latitude,
+          lng: data.longitude
         })
+      })
+    },
+    startTracking () {
+      this.trackID = geolocation.watchLocation(data => {
+        this.mapbox.setCenter({
+          lat: data.latitude,
+          lng: data.longitude
+        })
+
+        this.addDataToPoints({
+          lat: data.latitude,
+          lng: data.longitude
+        })
+
+        this.mapbox.removePolylines([1])
+        this.mapbox.addPolyline({
+          id: 1,
+          color: '#336699',
+          width: 7,
+          opacity: 0.6,
+          points: this.points
+        })
+      }, err => console.log(err), {
+        desiredAccuracy: Accuracy.high,
+        updateDistance: 0.1,
+        updateTime: 3000,
+        minimumUpdateTime: 100
       })
     }
   }
