@@ -11,6 +11,9 @@ export default new Vuex.Store({
   mutations: {
     addDataToPoints (state, data) {
       state.points.push(data)
+    },
+    setTrackingStatus (state, data) {
+      state.trackingStatus = data
     }
   }
 })
