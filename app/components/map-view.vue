@@ -32,8 +32,18 @@ export default {
   },
   computed: {
     ...mapState({
-      points: state => state.points
+      points: state => state.points,
+      trackingStatus: state => state.trackingStatus
     })
+  },
+  watch: {
+    trackingStatus () {
+      if (this.trackingStatus === 'in-progress') {
+        this.startTracking()
+      } else {
+        geolocation.clearWatch(this.trackID)
+      }
+    }
   },
   methods: {
     ...mapMutations(['addDataToPoints']),

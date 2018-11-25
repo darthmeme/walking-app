@@ -6,7 +6,7 @@
       borderWidth: this.isPrimary ? '' : '2 2 2 2',
       borderColor: this.isPrimary ? '' : `${this.color} `.repeat(4).trim(),
       backgroundColor: this.isPrimary ? this.color : '#FFF',
-      width: this.isPrimary ? '80%' : '40%'
+      width: this.size === 'large' ? '80%' : '40%'
     }"
     :text="text"
     @tap="$emit('pressed')" />

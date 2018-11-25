@@ -12,17 +12,20 @@
               type="primary"
               text="Start"
               color="#4C9ADD"
-              size="large" />
+              size="large"
+              @pressed="setTrackingStatus('in-progress')" />
             <action-button
               v-show="isTracking"
               text="Pause"
               color="#4C9ADD"
-              size="large" />
+              size="large"
+              @pressed="setTrackingStatus('paused')" />
             <action-button
               v-show="isTrackingPaused"
               text="Continue"
               color="#9AED96"
-              size="small" />
+              size="small"
+              @pressed="setTrackingStatus('in-progress')" />
             <action-button
               v-show="isTrackingPaused"
               text="Stop"
@@ -59,6 +62,7 @@ export default {
       return this.trackingStatus === 'initial'
     },
     isTracking () {
+      console.log(true)
       return this.trackingStatus === 'in-progress'
     },
     isTrackingPaused () {
