@@ -81,7 +81,9 @@ export default {
         desiredAccuracy: Accuracy.high,
         updateDistance: 0.1,
         updateTime: 3000,
-        minimumUpdateTime: 100
+        minimumUpdateTime: 100,
+        iosAllowsBackgroundLocationUpdates: true,
+        iosPausesLocationUpdatesAutomatically: false
       })
     }
   }
